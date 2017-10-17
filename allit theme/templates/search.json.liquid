@@ -1,0 +1,16 @@
+{%- layout none -%}{% if search.results %}{% assign upsellProducts = '' %}{% for product in search.results %}{% if product.tags contains '8upsell' %}{% if upsellProducts != '' %}{% assign upsellProducts = upsellProducts | append:',' %}{% endif %}{% assign upsellProducts = upsellProducts | append:product.id %}{% endif %}{% endfor %}{% if upsellProducts %}{% assign upsellProducts = upsellProducts | split: ',' %}{% endif %}{% endif %}
+{%- capture results -%}
+{%- for item in search.results -%}
+{%- assign currentSearchItem = item.id | strip_html -%}{%- if upsellProducts contains currentSearchItem -%}{%- continue -%}{%- endif -%} 
+{ 
+"title"    : {{ item.title | json }},
+"url"      : {{ item.url | within: item.collections.last | json }},
+"thumbnail": {% if item.object_type == 'product' %}{{ item.featured_image.src | product_img_url: 'thumb' | json }}{% else %}{{ 'news.png' | asset_url | json }}{% endif %}
+}
+{%- unless forloop.last -%},{%- endunless -%}
+{%- endfor -%}
+{%- endcapture -%}
+{
+"results_count": {{ search.results_count }},
+"results": [{{ results }}]
+}
