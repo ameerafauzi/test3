@@ -1,0 +1,173 @@
+ <div class="isotope-products home-content products-list border-{{ section.settings.collections_border }}" data-section-id="{{ section.id }}" data-collections_size="{{ section.settings.collections_size }}" data-collections_border="{{section.settings.collections_border }}" data-collections_thumb_bg="{{ section.settings.collections_thumb_bg }}">
+
+  {% assign per = section.settings.home_list_products_max | times: 1 %}
+
+  {% assign collection_count = collections[section.settings.home_collections_select].products_count | times: 1 %}
+
+  {% if collection_count == 0 %}
+
+    {% for i in (1..per) %}
+      {% assign no = forloop.index | modulo:4 | plus:1 %}
+      {% capture product_img %} {{ 'svg_product-X.svg' | replace: 'X', no | asset_url }} {% endcapture %}
+      {% include 'collection_item-blank' with product_img %}
+    {% endfor %}
+
+    <div class="onboarding">
+
+      <p>{{ 'general.onboarding.no_products' | t }}</p>
+
+      <p>{{ 'general.onboarding.edit_homepage' | t }}</p>
+
+      <a class="button" href="/admin/themes">{{ 'general.onboarding.customize_theme' | t }}</a>
+      <a class="button" href="/admin/products/new">{{ 'general.onboarding.add_products' | t }}</a>
+
+    </div>
+
+  {% else %}
+
+    {% if collection_count > 0 %}
+
+      {% for product in collections[section.settings.home_collections_select].products limit:per %}
+          {% include 'collection_item' %}
+      {% endfor %}
+
+    {% endif %}
+
+  {% endif %}
+
+</div>
+
+{% schema %}
+  {
+    "name": "Featured collection",
+    "class": "index-section featured-products-section reload-isotope home-nomargin",
+    "settings": [
+      {
+        "type": "select",
+        "id": "collections_size",
+        "label": "Image size",
+        "options": [
+          {
+            "value": "small",
+            "label": "Medium"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "collections_border",
+        "label": "Image border",
+        "options": [
+          {
+            "value": "no",
+            "label": "No border"
+          },
+          {
+            "value": "true tiny",
+            "label": "Tiny"
+          },
+          {
+            "value": "true",
+            "label": "Normal"
+          },
+          {
+            "value": "true large",
+            "label": "Large"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "collections_anim_style",
+        "label": "Caption style",
+        "options": [
+          {
+            "value": "one",
+            "label": "Overlay left aligned"
+          },
+          {
+            "value": "three",
+            "label": "Overlay centered aligned"
+          },
+          {
+            "value": "two",
+            "label": "Below image"
+          },
+          {
+            "value": "four",
+            "label": "Below image alternate"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "collections_thumb_style",
+        "label": "Product text",
+        "options": [
+          {
+            "value": "light",
+            "label": "Dark"
+          },
+          {
+            "value": "dark",
+            "label": "Light"
+          }
+        ]
+      },
+      {
+        "type": "color",
+        "id": "collections_thumb_bg",
+        "label": "Product hover",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "select",
+        "id": "home_list_products_max",
+        "label": "Maximum number of products shown",
+        "options": [
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "6",
+            "label": "6"
+          },
+          {
+            "value": "12",
+            "label": "12"
+          },
+          {
+            "value": "16",
+            "label": "16"
+          },
+          {
+            "value": "20",
+            "label": "20"
+          },
+          {
+            "value": "24",
+            "label": "24"
+          }
+        ]
+      },
+      {
+        "type": "collection",
+        "id": "home_collections_select",
+        "label": "Collection"
+      }
+    ],
+    "presets": [{
+      "name": "Featured collection",
+      "category": "Collection"
+    }]
+  }
+{% endschema %}

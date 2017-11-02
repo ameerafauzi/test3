@@ -1,0 +1,212 @@
+{% if section.blocks.size > 0 %}
+
+	<div id="home-slider" class="swiper-container" data-section-id="{{ section.id }}" data-transition="{{ section.settings.carousel_transition }}" data-autoplay="{{ section.settings.carousel_autoplay }}" data-timer="{{ section.settings.carousel_timer }}">
+
+		<div class="swiper-wrapper">
+
+	    {% for block in section.blocks %}
+
+	    	<div class="slide swiper-slide slide--{{ block.id }}" {{ block.shopify_attributes }} data-index="{{ forloop.index }}">
+		
+					{% if block.settings.hero_slide == blank %}
+	    			{% assign no = forloop.index | modulo:2 | plus:1 %}
+						{% capture img_url %} {{ 'svg_lifestyle-X.svg' | replace: 'X', no | asset_url }} {% endcapture %}
+						{% assign img_class = 'onboarding-slide' %}
+					{% else %}
+						{% capture img_url %} {{ block.settings.hero_slide | img_url: '1920x' }} {% endcapture %}
+						{% assign img_class = 'image' %}
+					{% endif %}
+
+					<div class="slide-img {{ img_class }}" style="background-image:url({{ img_url }})">
+
+	      		{% if block.settings.hero_video contains '.mp4' %}
+	      			<video class="video-obj{% if forloop.index0 > 0 %} active{% endif %}" autoplay loop muted>
+	      				<source type="video/mp4" src="{{ block.settings.hero_video | escape }}" />
+	      			</video>
+	      		{% endif %}
+
+						<img src="{{ img_url }}" alt="{{ block.settings.hero_slide.alt }}" />
+
+						<div class="slide-caption {{ block.settings.labels_pos }} {{ block.settings.img_style }}">
+							<div class="table-display">
+								<div>
+
+									{% if block.settings.label1 != '' %}
+										<span class="label a">{{ block.settings.label1 | escape }}</span>
+									{% endif %}
+
+									{% if block.settings.label2 != '' %}
+										<h2 class="label b">{{ block.settings.label2 | escape }}</h2>
+									{% endif %}
+
+									{% if block.settings.label3 != '' %}
+										<span class="label c">{{ block.settings.label3 | escape }}</span>
+									{% endif %}
+
+									{% if block.settings.button_label != '' %}
+										<a class="button{% if block.settings.img_style == 'light' %} dark{% endif %} label d" href="{{ block.settings.button_url | escape }}">{{ block.settings.button_label | escape }}<span>&rarr;</span></a>
+									{% endif %}
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					{% if block.settings.button_url != '' and block.settings.button_label == '' %}
+						<a class="slide-url" href="{{ block.settings.button_url | escape }}"></a>
+					{% endif %}
+
+				</div>
+
+			{% endfor %}
+
+		</div>
+
+	    <div class="draw-buttons gal three" aria-hidden="true">
+	    <div class="holder">
+	      <span class="swiper-no"><span class="cur">1</span><span class="tot">1</span></span>        
+	      <span class="btn-prev">{% include 'asset_svg' with 'left_icon' %}<a href="#" class="swiper-prev"></a></span>
+	      <span class="btn-next">{% include 'asset_svg' with 'right_icon' %}<a href="#" class="swiper-next"></a></span>
+	    </div>
+	  </div>
+
+	</div>
+
+	<div class="swiper-pagination"></div>
+
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Slideshow",
+    "max_blocks": 6,
+    "settings": [{
+      "type": "header",
+      "content": "Settings"
+    }, 
+    {
+      "type": "select",
+      "id": "carousel_transition",
+      "label": "Transition",
+      "options": [
+        {
+          "value": "slide",
+          "label": "Slide"
+        },
+        {
+          "value": "fade",
+          "label": "Fade"
+        }
+      ],
+      "default": "slide"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_autoplay",
+      "label": "Auto rotate slides"
+    },
+    {
+      "type": "select",
+      "id": "carousel_timer",
+      "label": "Rotation interval",
+      "options": [
+        {
+          "value": "4",
+          "label": "4 seconds"
+        },
+        {
+          "value": "5",
+          "label": "5 seconds"
+        },
+        {
+          "value": "6",
+          "label": "6 seconds"
+        },
+        {
+          "value": "7",
+          "label": "7 seconds"
+        },
+        {
+          "value": "8",
+          "label": "8 seconds"
+        }
+      ]
+    }],
+    "blocks": [{
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "hero_slide",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "hero_video",
+          "label": "Video background (url to mp4 file)"
+        },
+	      {
+	        "type": "text",
+	        "id": "label1",
+	        "label": "Heading"
+	      },
+	      {
+	        "type": "text",
+	        "id": "label2",
+	        "label": "Subheading"
+	      },
+	      {
+	        "type": "text",
+	        "id": "label3",
+	        "label": "Caption"
+	      },
+	      {
+	        "type": "text",
+	        "id": "button_label",
+	        "label": "Button text"
+	      },
+	      {
+	        "type": "text",
+	        "id": "button_url",
+	        "label": "Link URL"
+	      },
+	        {
+	        "type": "select",
+	        "id": "img_style",
+	        "label": "Text color",
+	        "options": [
+	          {
+	            "value": "light",
+	            "label": "Dark"
+	          },
+	          {
+	            "value": "dark",
+	            "label": "Light"
+	          }
+	        ]
+	      },
+	      {
+	        "type": "select",
+	        "id": "labels_pos",
+	        "label": "Labels position",
+	        "options": [
+	          {
+	            "value": "left",
+	            "label": "Left"
+	          },
+	          {
+	            "value": "center",
+	            "label": "Center"
+	          },
+	          {
+	            "value": "right",
+	            "label": "Right"
+	          }
+	        ]
+	      }
+      ]
+    }]
+  }
+{% endschema %}

@@ -1,0 +1,104 @@
+<div class="home-content wpadding top-margin clearfix">
+
+  <header class="page-title">
+    <h3 class="title">
+      {% unless section.settings.home_blog_select == blank %}
+        {{ blogs[section.settings.home_blog_select].title }}
+      {% else %}
+        Blog
+      {% endunless %}
+    </h3>
+  </header>
+
+  <div class="blog-grid cols-{{ section.settings.blog_cols }} clearfix">
+
+    {% if section.settings.blog_cols contains 'two' %}
+      {% assign blog_per = 4 %}
+    {% else %}
+      {% assign blog_per = 3 %}
+    {% endif %}
+
+    {% for article in blogs[section.settings.home_blog_select].articles limit:blog_per %}
+      {% include 'blog_item' %}
+    {% endfor %}
+
+  </div>
+
+  {% assign blog_count = blogs[section.settings.home_blog_select].articles_count | times: 1 %}
+
+  {% if blog_count == 0 %}
+    
+    <div class="post onboard">
+      <p>You don't have any blog posts in the selected blog.</p>
+      <a class="button" href="/admin/articles/new">Write your first post</a>
+    </div>
+
+  {% endif %}
+
+</div>
+
+{% schema %}
+  {
+    "name": "Blog posts",
+    "class": "index-section featured-blog-section reload-blog home-margin",
+    "settings": [
+      {
+        "type": "select",
+        "id": "blog_cols",
+        "label": "Columns",
+        "options": [
+          {
+            "value": "one",
+            "label": "One"
+          },
+          {
+            "value": "two",
+            "label": "Two"
+          },
+          {
+            "value": "three",
+            "label": "Three"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "tags_enabled",
+        "label": "Show post tags"
+      },
+      {
+        "type": "checkbox",
+        "id": "author_enabled",
+        "label": "Show post author"
+      },
+      {
+        "type": "select",
+        "id": "blog_excerpt",
+        "label": "Post excerpt",
+        "options": [
+          {
+            "value": "30",
+            "label": "Small"
+          },
+          {
+            "value": "90",
+            "label": "Large"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "blog",
+        "id": "home_blog_select",
+        "label": "Blog"
+      }
+    ],    
+    "presets": [{
+      "name": "Blog posts",
+      "category": "Blog"
+    }]
+  }
+{% endschema %}
