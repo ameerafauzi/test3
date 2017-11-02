@@ -1,0 +1,88 @@
+{% for block in section.blocks %}
+
+  <div class="home-content wpadding top-margin" data-section-id="{{ section.id }}">
+
+    {% case block.type %}
+
+      {% when 'text' %}
+
+        <header class="page-title">
+          <h3 class="title">{{ block.settings.title | escape }}</h3>
+        </header>
+
+        <div class="rte">
+          {{ block.settings.content }}
+        </div>
+
+      {% when 'page' %}
+
+        {% if block.settings.page == blank %}
+
+          <header class="page-title">
+            <h3 class="title">Page Content</h3>
+          </header>
+
+          <div class="rte">
+            <p>Select a page to display it's content here.</p>
+          </div>
+
+        {% else %}
+
+          <header class="page-title">
+            <h3 class="title">{{ pages[block.settings.page].title }}</h3>
+          </header>
+
+          <div class="rte">
+            {{ pages[block.settings.page].content }}
+          </div>
+
+        {% endif %}
+
+    {% endcase %}
+
+  </div>
+
+{% endfor %}
+
+{% schema %}
+  {
+    "name": "Rich text",
+    "class": "index-section featured-page-section home-margin",
+    "blocks": [
+      {
+        "type": "text",
+        "name": "Rich text",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Rich text"
+          },
+          {
+            "type": "richtext",
+            "id": "content",
+            "label": "Text",
+            "default": "<p>Insert your own content here!</p>"
+          }
+        ]
+      },
+      {
+        "type": "page",
+        "name": "Page",
+        "settings": [{
+          "type": "page",
+          "id": "page",
+          "label": "Page"
+        }]
+      }
+    ],
+    "presets": [{
+      "name": "Rich text",
+      "category": "Text",
+      "blocks": [{
+        "type": "text"
+      }]
+    }]
+  }
+{% endschema %}

@@ -1,0 +1,21 @@
+{% section 'product-page' %}
+
+{% unless product.empty? %}
+  <script type="application/json" id="ProductJson">
+    {{ product | json }}
+  </script>
+{% endunless %}
+
+<script type="text/javascript">
+
+	window.shop_money_format = "{{ shop.money_format }}";
+
+	window.product_words_add_to_cart_button = "{{ 'products.page.add_to_cart_button' | t }}";
+	window.product_words_sold_out_variant = "{{ 'products.page.inventory.sold_out_variant' | t }}";
+	window.product_words_unavailable_variant = "{{ 'products.page.inventory.unavailable_variant' | t }}";
+	window.product_words_one_product = "{{ 'products.page.inventory.one_product' | t }}";
+	window.product_words_few_products = "{{ 'products.page.inventory.few_products' | t }}";
+	window.product_words_no_products = "{{ 'products.page.inventory.no_products' | t }}";
+	window.product_words_preorder = "{{ 'products.page.inventory.preoder' | t }}";
+
+</script>

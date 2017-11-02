@@ -1,0 +1,107 @@
+<div>
+
+  <style type="text/css">
+    #newsletter-box:before {
+      background-image: url({{ section.settings.bg | img_url: '900x' }});
+    }
+  </style>
+
+  <div id="newsletter-box" class="{% unless section.settings.bg %}no-image {% endunless %}clearfix" data-newsletter_check="true" data-newsletter_auto="{{ section.settings.newsletter_auto }}" data-newsletter_mobile="{{ section.settings.newsletter_mobile }}" data-newsletter_confirm="{{ 'general.newsletter.confirmation' | t }}">
+
+    <h5>{{ section.settings.title | escape }}</h5>
+    <div id="newsletter-text" class="rte">{{ section.settings.content }}</div>
+
+    {% if section.settings.newsletter_form_action != blank %}
+      {% assign form_action = section.settings.newsletter_form_action %}
+    {% else %}
+      {% assign form_action = '#' %}
+    {% endif %}
+
+    {% form 'customer' %}
+      {{ form.errors | default_errors }}
+      <div class="input-group">
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter.email_label' | t }}" name="contact[email]" id="Email" aria-label="{{ 'general.newsletter.email_label' | t }}" autocorrect="off" autocapitalize="off">
+        <input type="submit" name="commit" id="Subscribe" value="{{ 'general.newsletter.submit_button' | t }}">
+      </div>
+    {% endform %}
+
+    <a href="#" class="close main">{% include 'asset_svg' with 'close_icon' %}</a>
+
+  </div>
+
+</div>
+
+{% schema %}
+  {
+    "name": "Newsletter",
+    "class": "newsletter-section table-display",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "image_picker",
+        "id": "bg",
+        "label": "Header image"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Newsletter"
+      },
+      {
+        "type": "richtext",
+        "id": "content",
+        "label": "Subtitle",
+        "default": "<p>Stay up to date on the latest product releases, special offers &amp; news by signing up for our newsletter.</p>"
+      }, {
+        "type": "header",
+        "content": "Settings"
+      },
+      {
+        "type": "select",
+        "id": "newsletter_auto",
+        "label": "Autoshow popup",
+        "options": [
+          {
+            "value": "0",
+            "label": "Disabled"
+          },
+          {
+            "value": "10",
+            "label": "After 5 seconds"
+          },
+          {
+            "value": "20",
+            "label": "After 20 seconds"
+          },
+          {
+            "value": "30",
+            "label": "After 30 seconds"
+          },
+          {
+            "value": "40",
+            "label": "After 40 seconds"
+          },
+          {
+            "value": "50",
+            "label": "After 50 seconds"
+          },
+          {
+            "value": "60",
+            "label": "After one minute"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "newsletter_mobile",
+        "label": "Show on mobile devices",
+        "default": false
+      }
+    ]
+  }
+{% endschema %}

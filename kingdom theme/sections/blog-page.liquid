@@ -1,0 +1,98 @@
+{% if section.settings.blog_cols contains 'three' %}
+  {% assign per = 6 %}
+{% else %}
+  {% assign per = 4 %}
+{% endif %}
+
+{% paginate blog.articles by per %}
+
+	<div id="page-content" class="clearfix">
+
+		<header class="page-title">
+			<h1 class="title">{{ blog.title }}</h1>
+			{% if section.settings.tags_filter %} {% include 'blog_tags' %} {% endif %}
+			{% if section.settings.rss_icon %} <a href="{{ blog.url }}.atom" target="_blank" class="fa fa-rss"></a> {% endif %}
+		</header>
+
+		<div class="blog-grid cols-{{ section.settings.blog_cols }} clearfix">
+
+			{% for article in blog.articles %}
+				{% include 'blog_item' %}
+			{% endfor %}
+
+		</div>
+
+		{% if paginate.pages > 1 %}
+			{% include 'main_pagination' %}
+		{% endif %}
+
+	</div>
+
+{% endpaginate %}
+
+{% schema %}
+	{
+    "name": "Blog page",
+    "class": "reload-blog",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Settings"
+      },
+	 		{
+        "type": "select",
+        "id": "blog_cols",
+        "label": "Columns",
+        "options": [
+          {
+            "value": "one",
+            "label": "One"
+          },
+          {
+            "value": "two",
+            "label": "Two"
+          },
+          {
+            "value": "three",
+            "label": "Three"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "tags_filter",
+        "label": "Show tags filter"
+      },
+      {
+        "type": "checkbox",
+        "id": "tags_enabled",
+        "label": "Show post tags"
+      },
+      {
+        "type": "checkbox",
+        "id": "author_enabled",
+        "label": "Show post author"
+      },
+      {
+        "type": "checkbox",
+        "id": "rss_icon",
+        "label": "Show RSS icon"
+      },
+      {
+        "type": "select",
+        "id": "blog_excerpt",
+        "label": "Post excerpt",
+        "options": [
+          {
+            "value": "30",
+            "label": "Small"
+          },
+          {
+            "value": "90",
+            "label": "Large"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

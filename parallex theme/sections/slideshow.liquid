@@ -1,0 +1,225 @@
+{% if section.blocks.size > 0 %}
+  <section id="homepage_slider-{{section.id}}" class="parallax-banner flexslider homepage_slider animation--fade {% if section.settings.image_stretch == false %}sixteen columns{% endif %} parallax_effect--{{ section.settings.parallax_effect }}"
+        data-slider-id="homepage_slider-{{section.id}}"
+        data-slideshow-animation="fade"
+        data-slideshow-speed="{{section.settings.slideshow_speed}}">
+    <ul class="slides">
+      {% for block in section.blocks %}
+          <li {{ block.shopify_attributes }} data-block-id="{{block.id}}">
+            <div id="slider-{{ block.id }}" class="slide">
+              {% capture i %}{% cycle "1", "2" %}{% endcapture %}
+              <div class="bcg {% if block.settings.image == nil %}bcg-placeholder{% endif %}"
+                {% if section.settings.parallax_effect %}
+                  data-bottom-top="background-position: 50% 200px;"
+                  data-top-bottom="background-position: 50% -200px;"
+                  data-anchor-target="#slider-{{ block.id }}" style="background-image:url({% if block.settings.image != nil %}{{ block.settings.image | img_url: '1600x' }}{% else %}{{ 'placeholder.svg' | asset_url }}{% endif %});"
+                  {% endif %}
+                  >
+                  <div class="hsContainer">
+                    <img src="{% if block.settings.image != nil %}{{ block.settings.image | img_url: '1600x' }}{% else %}{{ 'placeholder.svg' | asset_url }}{% endif %}" alt="{{ block.settings.image.alt | escape }}" class="hsContainer__image">
+                      <div class="hsContent">
+                        <div class="container">
+                          <div class="columns {% if block.settings.text_position == 'left' %} eight offset-by-one {% elsif block.settings.text_position == 'right' %} eight offset-by-eight {% else %} sixteen {% endif %} align_{{ block.settings.text_alignment }}">
+                            {% if forloop.first == true and block.settings.title != blank %}
+                              <h1 class="headline">
+                                {{ block.settings.title | escape }}
+                              </h1>
+                            {% elsif block.settings.title != blank %}
+                              <p class="headline">
+                                {{ block.settings.title | escape }}
+                              </p>
+                            {% endif %}
+                            {% if block.settings.subtitle != blank %}
+                              <div class="subtitle">
+                                {{ block.settings.subtitle }}
+                              </div>
+                            {% endif %}
+                            {% if block.settings.button_label != blank %}
+                              <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="action_button">
+                                {{ block.settings.button_label | escape }}
+                              </a>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+    </ul>
+  </section>
+{% endif %}
+
+<style>
+  {% if section.settings.parallax_effect %}
+    #homepage_slider-{{ section.id }} .hsContainer {
+      height: {{ section.settings.parallax_image_height | remove: "px" }}px;
+    }
+  {% endif %}
+
+  @media (max-width: 767px) {
+    {% if settings.slideshow_images_crop %}
+      #homepage_slider-{{ section.id }} .hsContainer {
+        height: {{ section.settings.parallax_image_height | divided_by: 2 | remove: "px" }}px;
+      }
+    {% else %}
+      #homepage_slider-{{ section.id }} .hsContainer {
+        height: auto;
+      }
+      .flexslider.parallax_effect--true img { display: block; }
+    {% endif %}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Slideshow",
+  "class": "slideshow-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "select",
+      "id": "slideshow_speed",
+      "label": "Slideshow speed",
+      "default": "6",
+      "options": [
+        {
+          "value": "4",
+          "label": "4 seconds"
+        },
+        {
+          "value": "6",
+          "label": "6 seconds"
+        },
+        {
+          "value": "10",
+          "label": "10 seconds"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Parallax"
+    },
+    {
+      "type": "checkbox",
+      "id": "parallax_effect",
+      "label": "Enable parallax scrolling",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "parallax_image_height",
+      "label": "Parallax section height (in pixels)",
+      "default": "600"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "1600 x 1000px recommended"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Your headline here"
+        },
+        {
+          "type": "richtext",
+          "id": "subtitle",
+          "label": "Subheading",
+          "default": "<p>This is a short subheading for your slideshow image</p>"
+        },
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Text position",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Slideshow",
+    "category": "Image",
+    "settings": {
+    },
+    "blocks": [
+      {
+        "type": "image",
+        "settings": {
+          "image": "",
+          "title": "Parallax Shopify Theme",
+          "subtitle": "",
+          "text_alignment": "center",
+          "button_label": "",
+          "link": ""
+        }
+      },
+      {
+        "type": "image",
+          "settings": {
+          "image": "",
+          "title": "",
+          "subtitle": "",
+          "text_alignment": "center",
+          "button_label": "",
+          "link": ""
+        }
+      }
+    ]
+  }]
+}
+{% endschema %}
