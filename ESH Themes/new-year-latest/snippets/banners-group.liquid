@@ -1,0 +1,52 @@
+{%- if settings.banner_grp_enable -%}
+<div class="banner-grp">
+      <div class="row">      
+          <div class="col-md-4 col-banner style_prevu_kit">		
+            <a href="{{settings.bn1_url}}">
+              <img style="width: 100%" src="{{ settings.bn1_img | img_url:"master" }}">           
+            </a>			
+          </div>
+
+          <div class="col-md-8">
+              <div class="row"> 
+                  <div class="col-md-6 col-banner style_prevu_kit">	
+                    <a href="{{settings.bn2_url}}">
+                      <img style="width: 100%" src="{{ settings.bn2_img | img_url:"master" }}"> 
+                    </a>	
+                  </div>
+
+                  <div class="col-md-6 col-banner style_prevu_kit">	
+                     <a href="{{settings.bn3_url}}">
+                      <img style="width: 100%" src="{{ settings.bn3_img | img_url:"master" }}"> 
+                    </a>	
+                  </div>
+
+
+                  <div class="col-md-6 col-banner style_prevu_kit">	
+                     <a href="{{settings.bn4_url}}">
+                      <img style="width: 100%" src="{{ settings.bn4_img | img_url:"master" }}"> 
+                    </a>	
+                  </div>
+
+
+                  <div class="col-md-6 col-banner style_prevu_kit">	
+                   <a href="{{settings.bn5_url}}">
+                      <img style="width: 100%" src="{{ settings.bn5_img | img_url:"master" }}"> 
+                    </a>	
+                  </div>	
+               </div>
+
+                <div class="row"> 
+                  <div class="col-md-12 col-banner style_prevu_kit">	
+                    <a href="{{settings.bn6_url}}">
+                      <img style="width: 100%" src="{{ settings.bn6_img | img_url:"master" }}"> 
+                    </a>	
+                  </div>	
+                </div>
+
+          </div>
+      </div> 
+</div>
+{%- endif -%}
+
+
