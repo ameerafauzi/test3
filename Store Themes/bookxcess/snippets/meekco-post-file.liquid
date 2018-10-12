@@ -1,0 +1,54 @@
+<script src="{{ 'jquery.dotdotdot.min.js' | asset_url }}"></script>
+
+<script type="text/javascript">
+
+  $(function() {
+    $('.product-details .title').dotdotdot({
+      /*	The text to add as ellipsis. */
+      ellipsis	: '...',
+
+      /*	How to cut off the text/html: 'word'/'letter'/'children' */
+      wrap		: 'letter',
+
+      /*	Wrap-option fallback to 'letter' for long words */
+      fallbackToLetter: 'letter',
+
+      /*	jQuery-selector for the element to keep and put after the ellipsis. */
+      after		: null,
+
+      /*	Whether to update the ellipsis: true/'window' */
+      watch		: true,
+
+      /*	Optionally set a max-height, if null, the height will be measured. */
+      height		: 17,
+
+      /*	Deviation for the height-option. */
+      tolerance	: 2
+    });
+    
+    
+   /* $('body').on('click', '[name="checkout"], [name="goto_pp"], [name="goto_gc"]', function() {
+      if ($('#agree').is(':checked')) {
+        $(this).submit();
+      }
+      else {
+        alert("You must agree with the terms and conditions of sales to check out.");
+        return false;
+      }
+    });
+    
+    $( "#signup" ).click(function() {
+      if ($('#agree').is(':checked')) {
+        $(this).submit();
+      }
+      else {
+        alert("You must agree with the terms and conditions to sign up.");
+        return false;
+      }
+    });*/
+    
+    
+  });
+
+
+</script>

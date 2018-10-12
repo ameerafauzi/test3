@@ -1,0 +1,5 @@
+{% comment %} meekco {% endcomment %}
+
+{% if product.metafields.attributes.warehouse-code %}
+   <input id="warehouse-code" type="hidden" name="properties[_Warehouse Code]" value="{{ product.metafields.attributes.warehouse-code }}">
+{% endif %}
