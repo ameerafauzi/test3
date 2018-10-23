@@ -1,0 +1,52 @@
+<style type="text/css">
+.instagram-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+}
+
+.instagram-wrapper .large--one-quarter, .instagram-wrapper .one-quarter {
+    width: 25%;
+    padding-bottom: 25%;
+}
+
+.instagram-wrapper .large--one-fifth, .instagram-wrapper .one-fifth {
+    width: 20%;
+    padding-bottom: 20%;
+}
+
+.instagram-wrapper .large--one-sixth, .instagram-wrapper .one-sixth {
+    width: 16.666%;
+    padding-bottom: 16.666%;
+}
+
+@media only screen and (max-width: 768px) {
+    .instagram-wrapper .medium--one-half {
+        width: 50%;
+        padding-bottom: 50%;
+    }
+}
+
+.homepage-instagram-indiv {
+    position: relative;
+}
+
+.homepage-instagram-indiv > * {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+</style>
+
+<script type="text/javascript">
+INSTAGRAM_TEMPLATE = '<div class="grid__item %grid% homepage-instagram-indiv"><a href="\{\{link\}\}" target="_blank"><div style="background-image: url(\{\{image\}\})" class="instagram-image"></div><div class="homepage-instagram-hover"><span class="fa-stack fa-2x"><i class="fa fa-circle fa-stack-2x fa-inverse"></i><i class="fa fa-instagram fa-stack-1x"></i></span></div></a></div>';
+
+INSTAGRAM_OPTIONS = {
+     get: 'user',
+     userId: 'self',
+    resolution: 'standard_resolution'
+};
+</script>
